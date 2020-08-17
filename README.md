@@ -2,6 +2,8 @@ Navedex
 =========================
 ### Aplicativo para gerenciamento dos navers.
 
+Figma do Projet: [Telas do App](https://www.figma.com/file/MIh7DeADz8M3mmcQwpcFdD/Teste-Mobile?node-id=1253%3A0)
+
 Tecnologia e Linguagens
 =========================
 - Typescript
