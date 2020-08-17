@@ -40,3 +40,11 @@ ou
 #### Usuário para acesso na tela de login:
 ` igor492@gmail.com `
 ` nave1234 `
+
+Dificuldades e aprendizados no desenvolvimento
+===============================================
+- Pela primeira vez fiz o uso da API com autenticação por token de acesso as rotas, demorei um pouco para entender como configurar e abrir no postman.
+- Enviar os dados no formato raw para a API, aprendi a fazer uso da função `JSON.stringify`
+- Aprendi e melhorei a utilização da ContextAPI do ReactJS.
+- Utilizei pela primeira vez a biblioteca `styled-components`
+- Projeto completo.
