@@ -6,7 +6,7 @@ Tecnologia e Linguagens
 =========================
 - Typescript
 - React Native
-- Expo CLI
+- Expo
 - NPM
 
 Api de dados
