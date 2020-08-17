@@ -42,3 +42,9 @@ export const TextButton = styled.Text`
 export const List = styled.View`
     margin-bottom: 70px;
 `;
+
+export const ViewLoading = styled.View`
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+`;

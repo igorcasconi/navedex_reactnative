@@ -1,15 +1,13 @@
 import React, {useState, useContext} from 'react';
 import {Container, ContentLogin, ImageLogo, ButtonAccess, TextButton, ViewImage, ViewError, TextError, Loading } from './style';
-import { ActivityIndicator } from 'react-native';
+import { Keyboard } from 'react-native';
 
 import ContextData from '../../contexts/ContextData';
 import Input from '../../components/Input';
 
 import logoImg from '../../assets/logo.png';
 
-
-
-const Login = () => {
+const Login: React.FC = () => {
 
     const { signIn, loading, erroLogin } = useContext(ContextData);
 
@@ -41,7 +39,7 @@ const Login = () => {
                 <Input type="default" placeText="Senha" security={true} value={senha} onChangeText={(text) => { setSenha(text) }} />
 
                 <ButtonAccess onPress={() => { 
-                    
+                    Keyboard.dismiss();
                     handleLogin(email, senha);
                     
                 }}>

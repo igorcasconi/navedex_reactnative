@@ -1,6 +1,6 @@
 import React, { useState,useContext } from 'react';
-import { FlatList } from 'react-native';
-import { Container, ViewButtons, TextInit, ButtonAddNaver, TextButton, List } from './style';
+import { FlatList, ActivityIndicator } from 'react-native';
+import { Container, ViewButtons, TextInit, ButtonAddNaver, TextButton, List, ViewLoading } from './style';
 import { useNavigation } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -9,12 +9,13 @@ import ContextData from '../../contexts/ContextData';
 import api, {config} from '../../services/api';
 
 
-const UserList = () => {
+const UserList: React.FC = () => {
 
     const { navigate } = useNavigation();
     const {user} = useContext(ContextData);
     const [navers, setNavers] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
+    const [loadingList, setLoadingList] = useState(true);
 
     function handleAddNaver() {
         navigate('AddNaver', { id: '' });
@@ -24,10 +25,10 @@ const UserList = () => {
         try{
             const response = await api.get('/navers',config(user.token));
             setNavers(response.data);
+            setLoadingList(false);
         } catch(err) {
             console.log(err);
         }
-
     }
 
     useFocusEffect(() => {
@@ -38,7 +39,6 @@ const UserList = () => {
         <UserItem user_naver={item} />
     );
 
-    console.log();
 
     return (
         <Container>
@@ -54,14 +54,19 @@ const UserList = () => {
 
             </ViewButtons>
 
-            <List >
-                <FlatList
-                    data={navers}
-                    numColumns={2}
-                    renderItem={renderItem}
-                    keyExtractor={(item: UserItemProps) => item.user_id}
-                />
-            </List>
+            { loadingList ? <ViewLoading>
+                <ActivityIndicator color="#212121" size={35} />
+            </ViewLoading> :
+
+                <List >
+                    <FlatList
+                        data={navers}
+                        numColumns={2}
+                        renderItem={renderItem}
+                        keyExtractor={(item: UserItemProps) => item.id}
+                    />
+                </List>
+            }
 
         </Container>
     );

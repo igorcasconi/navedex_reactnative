@@ -1,8 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Container, TextInit, ButtonSave, TextButton } from './style';
-import { KeyboardAvoidingView } from 'react-native';
+import { KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import { ScrollView } from 'react-native';
 import { format } from 'date-fns';
+import Modal from 'react-native-modal';
 
 import Input from '../../components/Input';
 import ContextData from '../../contexts/ContextData';
@@ -28,6 +29,7 @@ const FormNaver: React.FC<Naver> = ({route}) => {
     const [project, setProject] = useState('');
     const [url, setUrl] = useState('');
     const [modal, setModal] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const { id } = route.params;
 
@@ -40,7 +42,7 @@ const FormNaver: React.FC<Naver> = ({route}) => {
         titleModal = 'Naver editado';
         messageModal = 'Naver editado com sucesso!';
         const loadEditNaver = async () => {
-
+            setLoading(true);
             try {
                 const response = await api.get('/navers/' + id, config(user.token));
                 setName(response.data.name);
@@ -49,8 +51,10 @@ const FormNaver: React.FC<Naver> = ({route}) => {
                 setAdmissionDate(format(new Date(response.data.admission_date),'dd/MM/yyyy'));
                 setProject(response.data.project);
                 setUrl(response.data.url);
+                setLoading(false);
             } catch(err) {
                 console.log(err);
+                setLoading(false);
             }
         }
 
@@ -69,6 +73,8 @@ const FormNaver: React.FC<Naver> = ({route}) => {
         if(name == '' && jobRole == '' && birthdate == '' && admissionDate == '' && project == '' && url == '' ){
             console.log('Tem campos vazios');
         } else {
+            
+            setLoading(true);
 
             if(id) { // UPDATE
                 
@@ -84,10 +90,13 @@ const FormNaver: React.FC<Naver> = ({route}) => {
                 await api.put('/navers/' + id, params, config(user.token))
                 .then((response) => {
                     setModal(true);
+                    setLoading(false);
                 })
                 .catch((err) => {
+                    setLoading(false);
                     titleModal = 'Ocorreu um erro';
                     messageModal = 'Não foi possível editar o naver!';
+                    
                 });
 
             } else { // CREATE
@@ -102,10 +111,14 @@ const FormNaver: React.FC<Naver> = ({route}) => {
 
                 await api.post('/navers', params, config(user.token))
                 .then((response) => {
+                    setLoading(false);
                     setModal(true);
+                    
                 }).catch(err => {
+                    setLoading(false);
                     titleModal = 'Ocorreu um erro';
                     messageModal = 'Não foi possível adicionar o naver!';
+                   
                 });
             }
         }
@@ -115,6 +128,10 @@ const FormNaver: React.FC<Naver> = ({route}) => {
         <Container>
 
             <ModalMessage title={titleModal} message={messageModal} show={modal} url="UserList" />
+
+            <Modal isVisible={loading} >
+                <ActivityIndicator color="#FFF" size={30} />
+            </Modal>
 
             <KeyboardAvoidingView>
                 <ScrollView>

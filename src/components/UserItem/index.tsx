@@ -35,22 +35,11 @@ const UserItem: React.FC<UserProps> = ({user_naver}) => {
         navigate('EditNaver', { id });
     }
 
-    function handleDeleteNaver(id: string) {
-        
-        api.delete('/navers/'+ id, config(user.token)).
-        then(response => {
-            console.log('funcionou');
-        }).catch(err => {
-            console.log(err);
-        })
-
-    }
-
     return( 
         <>
         <ModalDelete title="Excluir naver" message="Tem certeza que deseja excluir este naver?" show={modal} close={() => setModal(false)} id={user_naver.id} />
 
-        <ViewUser key={user_naver.user_id}>
+        <ViewUser key={user_naver.id}>
             <TouchableOpacity onPress={() => { handleNaverProfile(user_naver.id) }}>
                 <ImageUser source={{ uri: user_naver.url}} />
 
